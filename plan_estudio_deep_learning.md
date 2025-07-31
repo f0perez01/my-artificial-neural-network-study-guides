@@ -27,11 +27,48 @@ x = ops.ones((3,3))
 y = model(x)
 ```
 
-### Image classification with modern MLP models
-* Prepare the data
-* Configure the hyperparameters
-* Build a claasification model
-* Predict
+### ¿Qué caracteriza a un MLP implementado en keras?
+Un MLP (Multilayer Perceptron) implementado en Keras tiene una serie de características clave que reflejan su estructura y funcionamiento como red neuronal completamente conectada:
+
+**Características principales de un MLP en Keras**
+| Característica                      | Descripción                                                                                                  |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| **Modelo secuencial**               | Se define comúnmente con `Sequential()`, ya que las capas se apilan en orden.                                |
+| **Capas densas (`Dense`)**          | Cada neurona está conectada a todas las neuronas de la capa anterior. Se usa `Dense(units, activation=...)`. |
+| **Entrada aplanada (`Flatten`)**    | Si trabajas con imágenes (como MNIST), se aplana con `Flatten()` antes de pasar a capas densas.              |
+| **Funciones de activación**         | Usualmente `relu` para capas ocultas, `softmax` o `sigmoid` en la capa de salida (según el tipo de tarea).   |
+| **Capa de salida**                  | Tiene tantas neuronas como clases (clasificación) o una sola (regresión), con activación adecuada.           |
+| **Compilación del modelo**          | Requiere definir `optimizer`, `loss` y `metrics` en `model.compile(...)`.                                    |
+| **Entrenamiento (`fit`)**           | Se entrena con `model.fit(x, y, epochs=n, ...)`, usando datos ya preprocesados.                              |
+| **Sin convolución ni recursividad** | Es una red **completamente conectada**, no incluye capas como `Conv2D` o `LSTM`.                             |
+
+**Ejemplo básico de MLP en Keras:**
+
+```py
+
+from keras.models import Sequential
+from keras.layers import Flatten, Dense
+
+model = Sequential([
+    Flatten(input_shape=(28, 28)),       # Aplana la imagen 28x28
+    Dense(128, activation='relu'),       # Capa oculta
+    Dense(10, activation='softmax')      # Capa de salida para clasificación en 10 clases
+])
+
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+
+model.fit(x_train, y_train, epochs=10)
+
+```
+
+**Típico en tareas como:**
+* Clasificación de dígitos (MNIST)
+* Predicciones simples en tabulares
+* Problemas donde los datos no tienen estructura espacial o secuencial relevante
+
+
 ---
 
 ## Día 2 - MLP y clasificación de imágenes
