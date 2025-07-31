@@ -9,6 +9,29 @@
 - Tarea:
   - Escribir un resumen de 5 pasos sobre cómo se construye un modelo MLP básico
 
+### The Sequential model
+```py
+import keras
+from keras import layers, ops
+
+# Define Sequetial model with 3 layers
+modelo = keras.Sequential(
+  [
+    layers.Dense(2, activation='relu', name='layer1'),
+    layers.Dense(3, activation='relu', name='layer2'),
+    layers.Dense(4, name='layer3'),
+  ]
+)
+# Call model on a test input
+x = ops.ones((3,3))
+y = model(x)
+```
+
+### Image classification with modern MLP models
+* Prepare the data
+* Configure the hyperparameters
+* Build a claasification model
+* Predict
 ---
 
 ## Día 2 - MLP y clasificación de imágenes
